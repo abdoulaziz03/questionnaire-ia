@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Enquête — L'IA dans la relation client en assurance | France × Côte d'Ivoire",
   description:
-    "Questionnaire anonyme de recherche (Mémoire de Master en Project Management) sur l'intelligence artificielle comme outil structurant de la relation client dans l'assurance. Enquête comparative France – Côte d'Ivoire.",
+    "Questionnaire anonyme de recherche (Mémoire de Bachelor en Banque Assurance) sur l'intelligence artificielle comme outil structurant de la relation client dans l'assurance. Enquête comparative France – Côte d'Ivoire.",
   robots: { index: false, follow: false },
 };
 

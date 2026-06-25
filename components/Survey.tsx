@@ -123,7 +123,7 @@ export default function Survey() {
     return (
       <Shell topRef={topRef}>
         <div className="fade-in">
-          <span className="eyebrow">Mémoire de Master · Project Management</span>
+          <span className="eyebrow">Mémoire de Bachelor · Banque Assurance</span>
           <h1 className="font-display mt-4 text-[2rem] leading-[1.12] sm:text-[2.7rem]" style={{ fontWeight: 500 }}>
             L'intelligence artificielle comme outil structurant de la relation client en assurance
           </h1>
