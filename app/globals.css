@@ -1,0 +1,304 @@
+@import "tailwindcss";
+
+/*
+  Direction visuelle
+  ------------------
+  Fond clair et froid (confiance institutionnelle, registre assurance/fintech),
+  encre bleu nuit, et un accent unique qui se TEINTE selon le pays choisi :
+  bleu pour la France, ambre pour la Côte d'Ivoire. C'est l'élément signature :
+  l'expérience adopte discrètement la couleur du parcours sélectionné.
+*/
+
+:root {
+  /* Polices (chargées via <link> dans app/layout.tsx) */
+  --font-inter: "Inter";
+  --font-fraunces: "Fraunces";
+
+  --paper: #f5f6f9;
+  --surface: #ffffff;
+  --ink: #16202e;
+  --ink-soft: #586377;
+  --ink-faint: #8a93a4;
+  --line: #e4e8ef;
+  --line-strong: #d3d9e3;
+
+  /* Accent par défaut (écran d'accueil / sélection du pays) : teal */
+  --accent: #0e7c86;
+  --accent-soft: #e3f1f2;
+  --accent-ring: rgba(14, 124, 134, 0.28);
+
+  /* Teintes pays */
+  --fr: #2d5bd6;
+  --fr-soft: #e7edfc;
+  --fr-ring: rgba(45, 91, 214, 0.26);
+  --civ: #db8413;
+  --civ-soft: #fbeed6;
+  --civ-ring: rgba(219, 132, 19, 0.26);
+
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(22, 32, 46, 0.04), 0 8px 28px rgba(22, 32, 46, 0.06);
+}
+
+/* Surcharge de l'accent selon le pays actif (classe posée sur <body>) */
+body[data-country="FR"] {
+  --accent: var(--fr);
+  --accent-soft: var(--fr-soft);
+  --accent-ring: var(--fr-ring);
+}
+body[data-country="CIV"] {
+  --accent: var(--civ);
+  --accent-soft: var(--civ-soft);
+  --accent-ring: var(--civ-ring);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
+/* Accessibilité : focus clavier visible */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Respect de la préférence « mouvement réduit » */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ----- Composants ----- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Bouton primaire */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.4rem;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Bouton secondaire */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+.btn-ghost:hover:not(:disabled) {
+  color: var(--ink);
+}
+.btn-ghost:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Option sélectionnable (radio / checkbox stylisés) */
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 0.95rem 1.1rem;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.45;
+}
+.option:hover {
+  border-color: var(--line-strong);
+  background: #fcfdff;
+}
+.option[data-selected="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* Marqueur (rond pour single, carré pour multi) */
+.marker {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border: 1.5px solid var(--line-strong);
+  background: #fff;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.marker-round {
+  border-radius: 999px;
+}
+.marker-square {
+  border-radius: 6px;
+}
+.option[data-selected="true"] .marker {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.marker svg {
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+.option[data-selected="true"] .marker svg {
+  opacity: 1;
+}
+
+/* Échelle 1–5 */
+.scale-btn {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  border-radius: 12px;
+  font-family: var(--font-fraunces), serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.scale-btn:hover {
+  border-color: var(--line-strong);
+}
+.scale-btn[data-selected="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* Champ texte */
+.field {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  resize: vertical;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* Barre de progression */
+.progress-track {
+  height: 6px;
+  background: var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pastille « partie » */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Spinner d'envoi */
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 999px;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Entrée animée des questions */
+.fade-in {
+  animation: fadeIn 0.4s ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
